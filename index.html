@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="bs">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sarajevo u vrijeme Austro-Ugarske</title>
+        <style>
+            body {
+                background-color: rgb(38, 38, 38);
+                text-align: center;
+                font-family: "Comic Sans MS"
+            }
+            h1 {
+                font-size: 48pt;
+                color: rgb(225, 225, 225)
+            }
+            form {
+                opacity: 0;
+                animation: 0.5s fadein 0s forwards
+            }
+            label {
+                display: block;
+                margin: 24pt;
+                font-size: 24pt;
+                color: rgb(225, 225, 225)
+            }
+            button {
+                width: 240pt;
+                height: 60pt;
+                margin: 12pt;
+                border: none;
+                border-radius: 12pt;
+                background-color: rgb(95, 95, 95);
+                font-size: 18pt;
+                font-family: "Comic Sans MS";
+                color: rgb(225, 225, 225);
+                animation: 0.25s idle 0s forwards
+            }
+            button:hover {
+                animation: 0.25s hover 0s forwards
+            }
+            footer {
+                position: fixed;
+                bottom: 4pt;
+                right: 4pt;
+                font-size: 12pt;
+                color: rgb(225, 225, 225)
+            }
+            #start, #restart {
+                width: 120pt;
+                height: 120pt;
+                margin: 24pt;
+                border-radius: 24pt;
+                background-color: rgb(95, 95, 95);
+                font-size: 72pt;
+                color: rgb(225, 225, 225)
+            }
+            #display {
+                font-size: 72pt;
+                animation: 0.5s fadein 0s forwards
+            }
+            #message {
+                font-size: 36pt;
+                animation: 0.5s fadein 0s forwards
+            }
+            @keyframes fadein {
+                from {
+                    opacity: 0
+                }
+                to {
+                    opacity: 1
+                }
+            }
+            @keyframes fadeout {
+                from {
+                    opacity: 1
+                }
+                to {
+                    opacity: 0
+                }
+            }
+            @keyframes idle {
+                from {
+                    background-color: rgb(95, 95, 95)
+                }
+                to {
+                    background-color: rgb(63, 63, 63)
+                }
+            }
+            @keyframes hover {
+                from {
+                    background-color: rgb(63, 63, 63)
+                }
+                to {
+                    background-color: rgb(95, 95, 95)
+                }
+            }
+            @keyframes correct {
+                from {
+                    background-color: rgb(95, 95, 95)
+                } to {
+                    background-color: rgb(0, 128, 0);
+                }
+            }
+            @keyframes wrong {
+                from {
+                    background-color: rgb(95, 95, 95)
+                } to {
+                    background-color: rgb(128, 0, 0);
+                }
+            }
+            @font-face {
+                font-family: "Comic Sans MS";
+                src: url("/ComicSansMS3.ttf")
+            }
+        </style>
+    </head>
+    <body>
+        <script src="/device_check.js"></script>
+        <script>
+            if (!onDesktop) location.href = ("/m")
+        </script>
+        <h1>Sarajevo u vrijeme Austro-Ugarske</h1>
+        <button id="start">▶</button>
+        <footer>© 2024 Omer Drkić. All Rights Reserved.</footer>
+        <script>
+            const start = document.getElementById("start")
+            let questions = [
+                ["Koje godine je okupirana Bosna i Hercegovina?", "1876.", "1877.", "1878.", "1879.", 2],
+                ["Koliko austrougarskih oficira je poginulo u okupaciji Bosne i Hercegovine?", "175", "176", "177", "178", 3],
+                ["Ko je dizajnirao vijećnicu?", "Benjamin Kalaj", "Aleksandar Vitek", "Karlo Paržik", "Ćirilo Iveković", 1],
+                ["Koje godine je vijećnica data na korištenje?", "1892.", "1894.", "1896.", "1898.", 2],
+                ["Ko je dizajnirao Zgradu Zemaljske vlade?", "Aleksandar Vitek", "Josip Vancaš", "Ćirilo Iveković", "Benjamin Kalaj", 1],
+                ["Po kojem stilu arhitekture je urađen sebilj?", "Pseudo-osmanskom", "Romanskom", "Gotičkom", "Neoklasičnom", 0],
+                ["Ko je konstruisao originalni sebilj?", "Aleksandar Vitek", "Hatišerif od Gilhane", "Smail-aga Čengić", "Mehmed-paša Kukavica", 3],
+                ["Koje godine je rekonstruisan sebilj nakon što je izgorio u požaru?", "1891.", "1892.", "1893.", "1894.", 0],
+                ["Kojeg dana je stigao prvi voz u Sarajevo?", "13. maja 1883.", "5. januara 1880.", "5. oktobra 1882.", "23. novembra 1884.", 2],
+                ["Kojeg dana je pušten prvi električni tramvaj u Sarajevu?", "3. maja 1895.", "1. januara 1895.", "1. januara 1885.", "12. oktobra 1894.", 0]
+            ]
+            var score = 0
+            var answer
+            var ready
+            function ask(question) {
+                return new Promise((resolve) => {
+                    form = document.createElement("form")
+                    label = document.createElement("label")
+                    br = document.createElement("br")
+                    button_a = document.createElement("button")
+                    button_b = document.createElement("button")
+                    button_c = document.createElement("button")
+                    button_d = document.createElement("button")
+                    label.innerText = question[0]
+                    button_a.innerText = question[1]
+                    button_b.innerText = question[2]
+                    button_c.innerText = question[3]
+                    button_d.innerText = question[4]
+                    button_a.type = "button"
+                    button_b.type = "button"
+                    button_c.type = "button"
+                    button_d.type = "button"
+                    button_a.value = "0"
+                    button_b.value = "1"
+                    button_c.value = "2"
+                    button_d.value = "3"
+                    form.appendChild(label)
+                    form.appendChild(br)
+                    form.appendChild(button_a)
+                    form.appendChild(button_b)
+                    form.appendChild(button_c)
+                    form.appendChild(button_d)
+                    document.body.appendChild(form)
+                    ready = true
+                    buttons = [button_a, button_b, button_c, button_d]
+                    buttons.forEach((button, idx) => {
+                        button.addEventListener("click", () => {
+                            if (ready) {
+                                answer = parseInt(button.value)
+                                ev = new Event("submit", {})
+                                form.dispatchEvent(ev)
+                                ready = false
+                            }
+                        })
+                    })
+                    form.addEventListener("submit", (ev) => {
+                        correct = answer == question[5]
+                        if (correct) {
+                            buttons[answer].style.animation = "0.5s correct 0s forwards"
+                            score++
+                            setTimeout(() => {
+                                form.style.animation = "0.5s fadeout 0s forwards"
+                                setTimeout(() => {
+                                    form.remove()
+                                    resolve()
+                                }, 500)
+                            }, 2000)
+                        } else {
+                            buttons[answer].style.animation = "0.5s wrong 0s forwards"
+                            buttons[question[5]].style.background_color = "rgb(95, 95, 95)"
+                            setTimeout(() => {
+                                buttons[question[5]].style.animation = "0.5s correct 0s forwards"
+                                setTimeout(() => {
+                                    form.style.animation = "0.5s fadeout 0s forwards"
+                                    setTimeout(() => {
+                                        form.remove()
+                                        resolve()
+                                    }, 500)
+                                }, 2000)
+                            }, 2000)
+                        }
+                    })
+                })
+            }
+            start.addEventListener("click", (ev) => {
+                ev.preventDefault()
+                start.style.animation = "0.5s fadeout 0s forwards"
+                setTimeout(async () => {
+                    start.remove()
+                    for (const question of questions) {
+                        await ask(question)
+                    }
+                    const display = document.createElement("label")
+                    const message = document.createElement("label")
+                    const restart = document.createElement("button")
+                    display.innerText = `${score}/10`
+                    message.innerText = (score == 10) ? "Odlično!" : "Više sreće drugi put!"
+                    restart.innerText = "↻"
+                    display.id = "display"
+                    message.id = "message"
+                    restart.id = "restart"
+                    restart.style.animation += ", 0.5s fadein 0s forwards"
+                    restart.addEventListener("click", (ev) => {
+                        ev.preventDefault()
+                        location.reload()
+                    })
+                    document.body.appendChild(display)
+                    document.body.appendChild(message)
+                    document.body.appendChild(restart)
+                }, 500)
+            })
+        </script>
+    </body>
+</html>
