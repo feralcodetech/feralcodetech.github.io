@@ -8,10 +8,11 @@
             body {
                 background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
                 text-align: center;
-                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande"
+                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Segoe UI"
             }
             h1 {
                 font-size: 36pt;
+                font-weight: bold;
                 color: rgb(225, 225, 225)
             }
             form {
@@ -30,7 +31,7 @@
                 margin: 12pt;
                 border: none;
                 border-radius: 12pt;
-                background-color: rgb(95, 95, 95);
+                background-color: rgb(125, 125, 125);
                 font-size: 18pt;
                 font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Segoe UI";
                 color: rgb(225, 225, 225);
@@ -50,7 +51,7 @@
                 width: 120pt;
                 height: 120pt;
                 margin: 24pt;
-                background-color: rgb(95, 95, 95);
+                background-color: rgb(125, 125, 125);
                 font-size: 72pt;
                 font-family: "Segoe UI";
                 color: rgb(225, 225, 225)
@@ -60,10 +61,10 @@
                 animation: 0.5s fadein 0s forwards
             }
             .u {
-                user-select: none;
                 -moz-user-select: none;
                 -ms-user-select: none;
-                -webkit-user-select: none
+                -webkit-user-select: none;
+                user-select: none
             }
             @keyframes fadein {
                 from {
@@ -83,32 +84,34 @@
             }
             @keyframes idle {
                 from {
-                    background-color: rgb(95, 95, 95)
+                    background-color: rgb(125, 125, 125)
                 }
                 to {
-                    background-color: rgb(63, 63, 63)
+                    background-color: rgb(95, 95, 95)
                 }
             }
             @keyframes hover {
                 from {
-                    background-color: rgb(63, 63, 63)
+                    background-color: rgb(95, 95, 95)
                 }
                 to {
-                    background-color: rgb(95, 95, 95)
+                    background-color: rgb(125, 125, 125)
                 }
             }
             @keyframes correct {
                 from {
-                    background-color: rgb(95, 95, 95)
-                } to {
-                    background-color: rgb(0, 128, 0);
+                    background-color: rgb(125, 125, 125)
+                }
+                to {
+                    background-color: rgb(63, 192, 63);
                 }
             }
             @keyframes wrong {
                 from {
-                    background-color: rgb(95, 95, 95)
-                } to {
-                    background-color: rgb(128, 0, 0);
+                    background-color: rgb(125, 125, 125)
+                }
+                to {
+                    background-color: rgb(192, 63, 63);
                 }
             }
         </style>
@@ -116,16 +119,17 @@
     <body>
         <script src="/device_check.js"></script>
         <script>
-            if (!onDesktop) location.href = ("/mobile_view")
+            if (!onDesktop) location.href = "/mobile_view"
         </script>
         <h1 class="u"></h1>
         <button class="u" id="start">▶</button>
         <footer class="u"></footer>
         <script>
+            function crash() { location.href = "/unavailable" }
             fetch("/data.json")
                 .then(res => res.json())
                 .then(temp => localStorage.setItem("data", JSON.stringify(temp)))
-                .catch(error => console.error(error))
+                .catch(error => crash())
             let date = new Date()
             let today = JSON.parse(localStorage.getItem("data"))
                 [date.getFullYear()]
