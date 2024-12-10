@@ -8,7 +8,7 @@
             body {
                 background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
                 text-align: center;
-                font-family: "Segoe UI"
+                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande"
             }
             h1 {
                 font-size: 36pt;
@@ -32,7 +32,7 @@
                 border-radius: 12pt;
                 background-color: rgb(95, 95, 95);
                 font-size: 18pt;
-                font-family: "Segoe UI";
+                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Segoe UI";
                 color: rgb(225, 225, 225);
                 animation: 0.25s idle 0s forwards
             }
@@ -52,6 +52,7 @@
                 margin: 24pt;
                 background-color: rgb(95, 95, 95);
                 font-size: 72pt;
+                font-family: "Segoe UI";
                 color: rgb(225, 225, 225)
             }
             #display {
@@ -119,7 +120,7 @@
         </script>
         <h1 class="u"></h1>
         <button class="u" id="start">▶</button>
-        <footer class="u">© 2024 Omer Drkić. All Rights Reserved.</footer>
+        <footer class="u"></footer>
         <script>
             fetch("/data.json")
                 .then(res => res.json())
@@ -133,7 +134,6 @@
             let questions = today.questions
             var score = 0
             var answer
-            var ready
             const start = document.getElementById("start")
             function ask(question) {
                 return new Promise((resolve) => {
@@ -164,7 +164,6 @@
                     form.appendChild(button_c)
                     document.body.appendChild(form)
                     done = false
-                    first_try = true
                     buttons = [button_a, button_b, button_c]
                     buttons.forEach((button, idx) => {
                         button.addEventListener("click", () => {
@@ -176,46 +175,35 @@
                         })
                     })
                     form.addEventListener("submit", (ev) => {
+                        done = true
                         correct = answer == question[4]
                         if (correct) {
-                            done = true
                             buttons[answer].style.animation = "0.5s correct 0s forwards"
-                            if (first_try) score++
-                            correct = true
-                            setTimeout(() => {
-                                form.style.animation = "0.5s fadeout 0s forwards"
-                                setTimeout(() => {
-                                    form.remove()
-                                    resolve()
-                                }, 500)
-                            }, 2000)
+                            score++
                         }
                         else {
-                            first_try = false
                             buttons[answer].style.animation = "0.5s wrong 0s forwards"
                         }
+                        setTimeout(() => {
+                            form.style.animation = "0.5s fadeout 0s forwards"
+                            setTimeout(() => {
+                                form.remove()
+                                resolve()
+                            }, 500)
+                        }, 2000)
                     })
                 })
             }
-            document.addEventListener("DOMContentLoaded", (ev) => {
-                ev.preventDefault()
-                document.title = `${today.title} ${document.title}`
-                document.getElementsByTagName("h1")[0].innerText = `${today.title} ${date.getFullYear().toString()}.`
-                document.body.style.background =
-                    `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(\"/bgs/${today.title}.jpg\") no-repeat center center fixed`
-            })
-            start.addEventListener("click", (ev) => {
-                ev.preventDefault()
-                start.style.animation = "0.5s fadeout 0s forwards"
+            function main(init_button) {
+                init_button.style.animation = "0.5s fadeout 0s forwards"
                 setTimeout(async () => {
-                    start.remove()
+                    init_button.remove()
                     for (const question of questions) {
                         await ask(question)
                     }
                     const display = document.createElement("label")
-                    const message = document.createElement("label")
                     const restart = document.createElement("button")
-                    display.innerText = `${score}/6`
+                    display.innerText = `${score}/${questions.length}`
                     restart.innerText = "↻"
                     display.id = "display"
                     restart.id = "restart"
@@ -224,11 +212,30 @@
                     restart.style.animation += ", 0.5s fadein 0s forwards"
                     restart.addEventListener("click", (ev) => {
                         ev.preventDefault()
-                        location.reload()
+                        display.style.animation = "0.5s fadeout 0s forwards"
+                        setTimeout(() => {
+                            score = 0
+                            display.remove()
+                        }, 500)
+                        main(restart)
                     })
                     document.body.appendChild(display)
                     document.body.appendChild(restart)
                 }, 500)
+            }
+            document.addEventListener("DOMContentLoaded", (ev) => {
+                ev.preventDefault()
+                document.title = `${today.title} ${document.title}`
+                document.getElementsByTagName("footer")[0].innerText
+                    = `© ${date.getFullYear()} Omer Drkić. All Rights Reserved.`
+                document.getElementsByTagName("h1")[0].innerText
+                    = `${today.title} ${date.getFullYear().toString()}.`
+                document.body.style.background
+                    = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(\"/bgs/${today.title}.jpg\") no-repeat center center fixed`
+            })
+            start.addEventListener("click", (ev) => {
+                ev.preventDefault()
+                main(start)
             })
         </script>
     </body>

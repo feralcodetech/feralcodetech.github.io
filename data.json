@@ -1,26 +1,43 @@
 {
     "2024" : {
         "12" : {
-            "10" : {
-                "title" : "Današnji dan",
-                "questions" : []
-            },
             "11" : {
                 "title" : "Međunarodni dan planina",
                 "questions" : [
                     [
-                        "Koji je najviši vrh u Bosni i Hercegovini?",
-                        "Bjelašnica",
-                        "Igman",
-                        "Maglić",
-                        2
+                        "Najviši vrh na zemlji, Mont Everest, je dio kojeg planinskog masiva?",
+                        "Himalaja",
+                        "Pirineja",
+                        "Alpi",
+                        0
                     ],
                     [
-                        "Koja je visina Maglića?",
-                        "2396",
-                        "1523",
-                        "2398",
+                        "Koji planinski lanac razdvaja Evropu od Azije?",
+                        "Dinaridi",
+                        "Ural",
+                        "Apenini",
+                        1
+                    ],
+                    [
+                        "Kako se zove najviši vulkan u Evropi?",
+                        "Stromboli",
+                        "Mont Etna",
+                        "Mont Elbrus",
+                        1
+                    ],
+                    [
+                        "Koja je visina Mont Everesta?",
+                        "8849 m",
+                        "8653 m",
+                        "8248 m",
                         0
+                    ],
+                    [
+                        "Koji je najviši vrh u BiH?",
+                        "Bjelašnica",
+                        "Volujak",
+                        "Maglić",
+                        2
                     ]
                 ]
             }
