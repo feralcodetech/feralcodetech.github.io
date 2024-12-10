@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="bs">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>(Kviz) - Druga osnovna škola, Hrasnica</title>
+        <style>
+            body {
+                background: rgb(63, 63, 63);
+                text-align: center;
+                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Segoe UI"
+            }
+            label {
+                font-size: 12pt;
+                color: rgb(225, 225, 225)
+            }
+            footer {
+                position: fixed;
+                bottom: 4pt;
+                right: 4pt;
+                font-size: 12pt;
+                color: rgb(225, 225, 225)
+            }
+            .u {
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -webkit-user-select: none;
+                user-select: none
+            }
+            </style>
+    </head>
+    <body>
+        <label class="u">
+            Kviz trenutno nije dostupan. Prijavite ovu grešku
+            <a href="mailto:omerdrkic2501@gmail.com?subject=Kviz%20nije%20dostupan">ovdje</a>.
+        </label>
+        <footer class="u"></footer>
+        <script>
+            function uncrash() { location.href = "/" }
+            fetch("/data.json")
+                .then(res => res.json())
+                .then(temp => uncrash())
+            let date = new Date()
+            document.addEventListener("DOMContentLoaded", (ev) => {
+                ev.preventDefault()
+                document.getElementsByTagName("footer")[0].innerText
+                    = `© ${date.getFullYear()} Omer Drkić. All Rights Reserved.`
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="bs">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>(Kviz) - Druga osnovna škola, Hrasnica</title>
+        <style>
+            body {
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+                text-align: center;
+                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Segoe UI"
+            }
+            h1 {
+                font-size: 36pt;
+                font-weight: bold;
+                color: rgb(225, 225, 225)
+            }
+            form {
+                opacity: 0;
+                animation: 0.5s fadein 0s forwards
+            }
+            label {
+                display: block;
+                margin: 24pt;
+                font-size: 24pt;
+                color: rgb(225, 225, 225)
+            }
+            button {
+                width: 240pt;
+                height: 60pt;
+                margin: 12pt;
+                border: none;
+                border-radius: 12pt;
+                background-color: rgb(125, 125, 125);
+                font-size: 18pt;
+                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Segoe UI";
+                color: rgb(225, 225, 225);
+                animation: 0.25s idle 0s forwards
+            }
+            button:hover {
+                animation: 0.25s hover 0s forwards
+            }
+            footer {
+                position: fixed;
+                bottom: 4pt;
+                right: 4pt;
+                font-size: 12pt;
+                color: rgb(225, 225, 225)
+            }
+            #start, #restart {
+                width: 120pt;
+                height: 120pt;
+                margin: 24pt;
+                background-color: rgb(125, 125, 125);
+                font-size: 72pt;
+                font-family: "Segoe UI";
+                color: rgb(225, 225, 225)
+            }
+            #display {
+                font-size: 72pt;
+                animation: 0.5s fadein 0s forwards
+            }
+            .u {
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -webkit-user-select: none;
+                user-select: none
+            }
+            @keyframes fadein {
+                from {
+                    opacity: 0
+                }
+                to {
+                    opacity: 1
+                }
+            }
+            @keyframes fadeout {
+                from {
+                    opacity: 1
+                }
+                to {
+                    opacity: 0
+                }
+            }
+            @keyframes idle {
+                from {
+                    background-color: rgb(125, 125, 125)
+                }
+                to {
+                    background-color: rgb(95, 95, 95)
+                }
+            }
+            @keyframes hover {
+                from {
+                    background-color: rgb(95, 95, 95)
+                }
+                to {
+                    background-color: rgb(125, 125, 125)
+                }
+            }
+            @keyframes correct {
+                from {
+                    background-color: rgb(125, 125, 125)
+                }
+                to {
+                    background-color: rgb(63, 192, 63);
+                }
+            }
+            @keyframes wrong {
+                from {
+                    background-color: rgb(125, 125, 125)
+                }
+                to {
+                    background-color: rgb(192, 63, 63);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <script src="/device_check.js"></script>
+        <script>
+            if (onDesktop) location.href = "/"
+        </script>
+        <h1 class="u"></h1>
+        <button class="u" id="start">▶</button>
+        <footer class="u"></footer>
+        <script>
+            function crash() { location.href = "/unavailable" }
+            fetch("/data.json")
+                .then(res => res.json())
+                .then(temp => localStorage.setItem("data", JSON.stringify(temp)))
+                .catch(error => crash())
+            let date = new Date()
+            let today = JSON.parse(localStorage.getItem("data"))
+                [date.getFullYear()]
+                [date.getMonth() + 1]
+                [date.getDate()]
+            let questions = today.questions
+            var score = 0
+            var answer
+            const start = document.getElementById("start")
+            function ask(question) {
+                return new Promise((resolve) => {
+                    form = document.createElement("form")
+                    label = document.createElement("label")
+                    br = document.createElement("br")
+                    button_a = document.createElement("button")
+                    button_b = document.createElement("button")
+                    button_c = document.createElement("button")
+                    label.innerText = question[0]
+                    button_a.innerText = question[1]
+                    button_b.innerText = question[2]
+                    button_c.innerText = question[3]
+                    label.className = "u"
+                    button_a.className = "u"
+                    button_b.className = "u"
+                    button_c.className = "u"
+                    button_a.type = "button"
+                    button_b.type = "button"
+                    button_c.type = "button"
+                    button_a.value = "0"
+                    button_b.value = "1"
+                    button_c.value = "2"
+                    form.appendChild(label)
+                    form.appendChild(br)
+                    form.appendChild(button_a)
+                    form.appendChild(button_b)
+                    form.appendChild(button_c)
+                    document.body.appendChild(form)
+                    done = false
+                    buttons = [button_a, button_b, button_c]
+                    buttons.forEach((button, idx) => {
+                        button.addEventListener("click", () => {
+                            if (!done) {
+                                answer = parseInt(button.value)
+                                ev = new Event("submit", {})
+                                form.dispatchEvent(ev)
+                            }
+                        })
+                    })
+                    form.addEventListener("submit", (ev) => {
+                        done = true
+                        correct = answer == question[4]
+                        if (correct) {
+                            buttons[answer].style.animation = "0.5s correct 0s forwards"
+                            score++
+                        }
+                        else {
+                            buttons[answer].style.animation = "0.5s wrong 0s forwards"
+                        }
+                        setTimeout(() => {
+                            form.style.animation = "0.5s fadeout 0s forwards"
+                            setTimeout(() => {
+                                form.remove()
+                                resolve()
+                            }, 500)
+                        }, 2000)
+                    })
+                })
+            }
+            function main(init_button) {
+                init_button.style.animation = "0.5s fadeout 0s forwards"
+                setTimeout(async () => {
+                    init_button.remove()
+                    for (const question of questions) {
+                        await ask(question)
+                    }
+                    const display = document.createElement("label")
+                    const restart = document.createElement("button")
+                    display.innerText = `${score}/${questions.length}`
+                    restart.innerText = "↻"
+                    display.id = "display"
+                    restart.id = "restart"
+                    display.className = "u"
+                    restart.className = "u"
+                    restart.style.animation += ", 0.5s fadein 0s forwards"
+                    restart.addEventListener("click", (ev) => {
+                        ev.preventDefault()
+                        display.style.animation = "0.5s fadeout 0s forwards"
+                        setTimeout(() => {
+                            score = 0
+                            display.remove()
+                        }, 500)
+                        main(restart)
+                    })
+                    document.body.appendChild(display)
+                    document.body.appendChild(restart)
+                }, 500)
+            }
+            document.addEventListener("DOMContentLoaded", (ev) => {
+                ev.preventDefault()
+                document.title = `${today.title} ${document.title}`
+                document.getElementsByTagName("footer")[0].innerText
+                    = `© ${date.getFullYear()} Omer Drkić. All Rights Reserved.`
+                document.getElementsByTagName("h1")[0].innerText
+                    = `${today.title} ${date.getFullYear().toString()}.`
+                document.body.style.background
+                    = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(\"/bgs/${today.title}.jpg\") no-repeat center center fixed`
+            })
+            start.addEventListener("click", (ev) => {
+                ev.preventDefault()
+                main(start)
+            })
+        </script>
+    </body>
+</html>
