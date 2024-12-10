@@ -116,7 +116,7 @@
     <body>
         <script src="/device_check.js"></script>
         <script>
-            if (!onDesktop) location.href = ("/unavailable")
+            if (!onDesktop) location.href = ("/mobile_view")
         </script>
         <h1 class="u"></h1>
         <button class="u" id="start">▶</button>
@@ -130,7 +130,7 @@
             let today = JSON.parse(localStorage.getItem("data"))
                 [date.getFullYear()]
                 [date.getMonth() + 1]
-                [/*date.getDate()*/11]
+                [date.getDate()]
             let questions = today.questions
             var score = 0
             var answer
