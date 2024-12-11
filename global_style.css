@@ -1,0 +1,25 @@
+body {
+    background-color: black;
+    text-align: center;
+    font-family: "Trebuchet MS", "Segoe UI (Local)", sans-serif
+}
+
+footer {
+    position: fixed;
+    bottom: 4pt;
+    right: 4pt;
+    font-size: 12pt;
+    color: rgb(225, 225, 225)
+}
+
+.u {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none
+}
+
+@font-face {
+    font-family: "Segoe UI (Local)";
+    src: url("/fonts/Segoe UI.ttf")
+}

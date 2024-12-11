@@ -3,48 +3,35 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>(Kviz) - Druga osnovna škola, Hrasnica</title>
+        <title>Vratite se sutra - Dnevna pitalica - Druga osnovna škola, Hrasnica</title>
+        <link rel="stylesheet" href="/global_style.css" />
         <style>
-            body {
-                background: rgb(63, 63, 63);
-                text-align: center;
-                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Segoe UI"
-            }
             label {
                 font-size: 12pt;
                 color: rgb(225, 225, 225)
             }
-            footer {
-                position: fixed;
-                bottom: 4pt;
-                right: 4pt;
-                font-size: 12pt;
-                color: rgb(225, 225, 225)
-            }
-            .u {
-                -moz-user-select: none;
-                -ms-user-select: none;
-                -webkit-user-select: none;
-                user-select: none
-            }
             </style>
     </head>
     <body>
-        <label class="u">
-            Kviz trenutno nije dostupan. Prijavite ovu grešku
-            <a href="mailto:omerdrkic2501@gmail.com?subject=Kviz%20nije%20dostupan">ovdje</a>.
-        </label>
-        <footer class="u"></footer>
+        <label class="u">Izgleda da nema nikakvih pitanja za danas. Vratite se sutra!</label>
+        <footer class="u">© 2024 Omer Drkić. All Rights Reserved.</footer>
         <script>
             function uncrash() { location.href = "/" }
             fetch("/data.json")
                 .then(res => res.json())
-                .then(temp => uncrash())
+                .then(temp => { sessionStorage.setItem("data", JSON.stringify(temp)) })
+                .catch(error => { location.reload() })
             let date = new Date()
+            let data = JSON.parse(sessionStorage.getItem("data"))
+            if (data === null) location.reload()
+            else if (
+                data.hasOwnProperty((date.getMonth() + 1).toString())
+                &&
+                data[(date.getMonth() + 1).toString()].hasOwnProperty(date.getDate().toString())
+            ) uncrash()
             document.addEventListener("DOMContentLoaded", (ev) => {
                 ev.preventDefault()
-                document.getElementsByTagName("footer")[0].innerText
-                    = `© ${date.getFullYear()} Omer Drkić. All Rights Reserved.`
+                document.getElementsByTagName("footer")[0].innerText = `© ${date.getFullYear()} Omer Drkić. All Rights Reserved.`
             })
         </script>
     </body>

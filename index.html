@@ -3,13 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>(Kviz) - Druga osnovna škola, Hrasnica</title>
+        <title>Dnevna pitalica - Druga osnovna škola, Hrasnica</title>
+        <link rel="stylesheet" href="/global_style.css" />
         <style>
-            body {
-                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
-                text-align: center;
-                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Segoe UI"
-            }
             h1 {
                 font-size: 36pt;
                 font-weight: bold;
@@ -33,19 +29,21 @@
                 border-radius: 12pt;
                 background-color: rgb(125, 125, 125);
                 font-size: 18pt;
-                font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Segoe UI";
+                font-family: "Trebuchet MS", "Segoe UI (Local)", sans-serif;
                 color: rgb(225, 225, 225);
                 animation: 0.25s idle 0s forwards
             }
             button:hover {
                 animation: 0.25s hover 0s forwards
             }
-            footer {
-                position: fixed;
-                bottom: 4pt;
-                right: 4pt;
-                font-size: 12pt;
-                color: rgb(225, 225, 225)
+            #bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                opacity: 50%;
+                z-index: -1
             }
             #start, #restart {
                 width: 120pt;
@@ -53,18 +51,12 @@
                 margin: 24pt;
                 background-color: rgb(125, 125, 125);
                 font-size: 72pt;
-                font-family: "Segoe UI";
+                font-family: "Segoe UI (Local)", sans-serif;
                 color: rgb(225, 225, 225)
             }
             #display {
                 font-size: 72pt;
                 animation: 0.5s fadein 0s forwards
-            }
-            .u {
-                -moz-user-select: none;
-                -ms-user-select: none;
-                -webkit-user-select: none;
-                user-select: none
             }
             @keyframes fadein {
                 from {
@@ -117,24 +109,25 @@
         </style>
     </head>
     <body>
-        <script src="/device_check.js"></script>
-        <script>
-            if (!onDesktop) location.href = "/mobile_view"
-        </script>
+        <div id="bg"></div>
         <h1 class="u"></h1>
         <button class="u" id="start">▶</button>
-        <footer class="u"></footer>
+        <footer class="u">© 2024 Omer Drkić. All Rights Reserved.</footer>
         <script>
             function crash() { location.href = "/unavailable" }
             fetch("/data.json")
                 .then(res => res.json())
-                .then(temp => localStorage.setItem("data", JSON.stringify(temp)))
-                .catch(error => crash())
+                .then(temp => { sessionStorage.setItem("data", JSON.stringify(temp)) })
+                .catch(error => { location.reload() })
             let date = new Date()
-            let today = JSON.parse(localStorage.getItem("data"))
-                [date.getFullYear()]
-                [date.getMonth() + 1]
-                [date.getDate()]
+            let data = JSON.parse(sessionStorage.getItem("data"))
+            if (data === null) location.reload()
+            else if (
+                !data.hasOwnProperty((date.getMonth() + 1).toString())
+                ||
+                !data[(date.getMonth() + 1).toString()].hasOwnProperty(date.getDate().toString())
+            ) crash()
+            let today = data[(date.getMonth() + 1).toString()][date.getDate().toString()]
             let questions = today.questions
             var score = 0
             var answer
@@ -229,13 +222,12 @@
             }
             document.addEventListener("DOMContentLoaded", (ev) => {
                 ev.preventDefault()
-                document.title = `${today.title} ${document.title}`
-                document.getElementsByTagName("footer")[0].innerText
-                    = `© ${date.getFullYear()} Omer Drkić. All Rights Reserved.`
-                document.getElementsByTagName("h1")[0].innerText
-                    = `${today.title} ${date.getFullYear().toString()}.`
-                document.body.style.background
-                    = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(\"/bgs/${today.title}.jpg\") no-repeat center center fixed`
+                document.title = `\"${today.title} ${date.getFullYear().toString()}.\" - ${document.title}`
+                document.getElementsByTagName("footer")[0].innerText = `© ${date.getFullYear()} Omer Drkić. All Rights Reserved.`
+                document.getElementsByTagName("h1")[0].innerText = `${today.title} ${date.getFullYear().toString()}.`
+                document.getElementById("bg").style.backgroundImage = `url(\"/bgs/${today.title}.jpg\")`
+                document.getElementById("bg").style.backgroundRepeat = "no-repeat"
+                document.getElementById("bg").style.backgroundSize = "cover"
             })
             start.addEventListener("click", (ev) => {
                 ev.preventDefault()
