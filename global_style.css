@@ -2,7 +2,7 @@ body {
     background-color: black;
     text-align: center;
     align-content: center;
-    font-family: "Trebuchet MS", "Segoe UI (Local)", sans-serif
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif
 }
 
 footer {
@@ -19,11 +19,6 @@ footer {
     -ms-user-select: none;
     -webkit-user-select: none;
     user-select: none
-}
-
-@font-face {
-    font-family: "Segoe UI (Local)";
-    src: url("/fonts/Segoe UI.ttf")
 }
 
 @keyframes fadein {
