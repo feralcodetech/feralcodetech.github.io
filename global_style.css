@@ -11,6 +11,7 @@ footer {
     right: 4pt;
     font-size: 12pt;
     color: rgb(225, 225, 225);
+    z-index: 10000;
     cursor: default
 }
 

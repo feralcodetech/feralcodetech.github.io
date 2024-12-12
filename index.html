@@ -36,7 +36,7 @@
             }
             button:hover { animation: 0.25s hover 0s forwards }
             #bg {
-                position: absolute;
+                position: fixed;
                 top: 0;
                 left: 0;
                 width: 100vw;
@@ -195,6 +195,7 @@
                 document.getElementById("bg").style.backgroundImage = `url(\"/bgs/${today.title}.jpg\")`
                 document.getElementById("bg").style.backgroundRepeat = "no-repeat"
                 document.getElementById("bg").style.backgroundSize = "cover"
+                document.getElementById("bg").style.backgroundPosition = "center"
             })
             start.addEventListener("click", (ev) => {
                 ev.preventDefault()
