@@ -103,12 +103,12 @@
             const start = document.getElementById("start")
             function ask(question) {
                 return new Promise((resolve) => {
-                    form = document.createElement("form")
-                    label = document.createElement("label")
-                    br = document.createElement("br")
-                    button_a = document.createElement("button")
-                    button_b = document.createElement("button")
-                    button_c = document.createElement("button")
+                    const form = document.createElement("form")
+                    const label = document.createElement("label")
+                    const br = document.createElement("br")
+                    const button_a = document.createElement("button")
+                    const button_b = document.createElement("button")
+                    const button_c = document.createElement("button")
                     label.innerText = question[0]
                     button_a.innerText = question[1]
                     button_b.innerText = question[2]
@@ -171,17 +171,19 @@
                     display.innerText = `${score}/${questions.length}`
                     display.id = "display"
                     display.className = "u"
-                    start.addEventListener("click", (ev) => {
+                    const restart = start.cloneNode(true)
+                    start.replaceWith(restart)
+                    restart.addEventListener("click", (ev) => {
                         ev.preventDefault()
                         display.style.animation = "0.5s fadeout 0s forwards"
                         setTimeout(() => {
                             score = 0
                             display.remove()
                         }, 500)
-                        main(start)
+                        main(restart)
                     })
-                    start.style.animation = "0.5s fadein 0s forwards"
-                    document.body.appendChild(start)
+                    restart.style.animation = "0.5s fadein 0s forwards"
+                    document.body.appendChild(restart)
                     document.body.appendChild(display)
                 }, 500)
             }
