@@ -9,7 +9,7 @@
             h1 {
                 font-size: 36pt;
                 font-weight: bold;
-                color: rgb(225, 225, 225)
+                color: rgb(255, 255, 255)
             }
             form {
                 opacity: 0;
@@ -19,7 +19,7 @@
                 display: block;
                 margin: 24pt;
                 font-size: 24pt;
-                color: rgb(225, 225, 225)
+                color: rgb(255, 255, 255)
             }
             button {
                 width: 240pt;
@@ -30,12 +30,11 @@
                 background-color: rgb(125, 125, 125);
                 font-size: 18pt;
                 font-family: "Trebuchet MS", "Segoe UI (Local)", sans-serif;
-                color: rgb(225, 225, 225);
+                color: rgb(255, 255, 255);
+                cursor: pointer;
                 animation: 0.25s idle 0s forwards
             }
-            button:hover {
-                animation: 0.25s hover 0s forwards
-            }
+            button:hover { animation: 0.25s hover 0s forwards }
             #bg {
                 position: absolute;
                 top: 0;
@@ -45,73 +44,43 @@
                 opacity: 50%;
                 z-index: -1
             }
-            #start, #restart {
-                width: 120pt;
-                height: 120pt;
+            #start {
+                width: 256px;
+                height: 256px;
                 margin: 24pt;
-                background-color: rgb(125, 125, 125);
-                font-size: 72pt;
-                font-family: "Segoe UI (Local)", sans-serif;
-                color: rgb(225, 225, 225)
+                background-color: transparent;
+                background-image: url("/start.png");
+                background-size: contain;
+                animation: none;
+                cursor: pointer
             }
+            #start:hover { animation: none }
             #display {
                 font-size: 72pt;
                 animation: 0.5s fadein 0s forwards
             }
-            @keyframes fadein {
-                from {
-                    opacity: 0
-                }
-                to {
-                    opacity: 1
-                }
-            }
-            @keyframes fadeout {
-                from {
-                    opacity: 1
-                }
-                to {
-                    opacity: 0
-                }
-            }
             @keyframes idle {
-                from {
-                    background-color: rgb(125, 125, 125)
-                }
-                to {
-                    background-color: rgb(95, 95, 95)
-                }
+                from { background-color: rgb(125, 125, 125) }
+                to { background-color: rgb(95, 95, 95) }
             }
             @keyframes hover {
-                from {
-                    background-color: rgb(95, 95, 95)
-                }
-                to {
-                    background-color: rgb(125, 125, 125)
-                }
+                from { background-color: rgb(95, 95, 95) }
+                to { background-color: rgb(125, 125, 125) }
             }
             @keyframes correct {
-                from {
-                    background-color: rgb(125, 125, 125)
-                }
-                to {
-                    background-color: rgb(63, 192, 63);
-                }
+                from { background-color: rgb(125, 125, 125) }
+                to { background-color: rgb(63, 192, 63) }
             }
             @keyframes wrong {
-                from {
-                    background-color: rgb(125, 125, 125)
-                }
-                to {
-                    background-color: rgb(192, 63, 63);
-                }
+                from { background-color: rgb(125, 125, 125) }
+                to { background-color: rgb(192, 63, 63) }
             }
         </style>
     </head>
     <body>
-        <div id="bg"></div>
+        <div class="u" id="bg"></div>
         <h1 class="u"></h1>
-        <button class="u" id="start">▶</button>
+        <button class="u" id="start"></button>
         <footer class="u">© 2024 Omer Drkić. All Rights Reserved.</footer>
         <script>
             function crash() { location.href = "/unavailable" }
@@ -191,33 +160,29 @@
                     })
                 })
             }
-            function main(init_button) {
-                init_button.style.animation = "0.5s fadeout 0s forwards"
+            function main(init) {
+                init.style.animation = "0.5s fadeout 0s forwards"
                 setTimeout(async () => {
-                    init_button.remove()
+                    init.remove()
                     for (const question of questions) {
                         await ask(question)
                     }
                     const display = document.createElement("label")
-                    const restart = document.createElement("button")
                     display.innerText = `${score}/${questions.length}`
-                    restart.innerText = "↻"
                     display.id = "display"
-                    restart.id = "restart"
                     display.className = "u"
-                    restart.className = "u"
-                    restart.style.animation += ", 0.5s fadein 0s forwards"
-                    restart.addEventListener("click", (ev) => {
+                    start.addEventListener("click", (ev) => {
                         ev.preventDefault()
                         display.style.animation = "0.5s fadeout 0s forwards"
                         setTimeout(() => {
                             score = 0
                             display.remove()
                         }, 500)
-                        main(restart)
+                        main(start)
                     })
+                    start.style.animation = "0.5s fadein 0s forwards"
+                    document.body.appendChild(start)
                     document.body.appendChild(display)
-                    document.body.appendChild(restart)
                 }, 500)
             }
             document.addEventListener("DOMContentLoaded", (ev) => {

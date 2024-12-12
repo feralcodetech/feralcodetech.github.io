@@ -1,6 +1,7 @@
 body {
     background-color: black;
     text-align: center;
+    align-content: center;
     font-family: "Trebuchet MS", "Segoe UI (Local)", sans-serif
 }
 
@@ -9,7 +10,8 @@ footer {
     bottom: 4pt;
     right: 4pt;
     font-size: 12pt;
-    color: rgb(225, 225, 225)
+    color: rgb(225, 225, 225);
+    cursor: default
 }
 
 .u {
@@ -22,4 +24,14 @@ footer {
 @font-face {
     font-family: "Segoe UI (Local)";
     src: url("/fonts/Segoe UI.ttf")
+}
+
+@keyframes fadein {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+@keyframes fadeout {
+    from { opacity: 1 }
+    to { opacity: 0 }
 }
