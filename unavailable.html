@@ -26,9 +26,11 @@
             let data = JSON.parse(sessionStorage.getItem("data"))
             if (data === null) location.reload()
             else if (
-                data.hasOwnProperty((date.getMonth() + 1).toString())
+                data.hasOwnProperty(date.getFullYear().toString())
                 &&
-                data[(date.getMonth() + 1).toString()].hasOwnProperty(date.getDate().toString())
+                data[date.getFullYear().toString()].hasOwnProperty((date.getMonth() + 1).toString())
+                &&
+                data[date.getFullYear().toString()][(date.getMonth() + 1).toString()].hasOwnProperty(date.getDate().toString())
             ) uncrash()
             document.addEventListener("DOMContentLoaded", (ev) => {
                 ev.preventDefault()
