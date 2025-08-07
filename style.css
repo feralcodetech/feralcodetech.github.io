@@ -4,6 +4,10 @@ body {
     background-color: #111111;
     color: #eeeeee;
     line-height: 1.6;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
 }
 
 header {
