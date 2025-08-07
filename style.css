@@ -46,12 +46,12 @@ header > p {
     color: #00ffaa;
 }
 
-.proceed {
+.form {
     text-align: center;
     margin-top: 40px;
 }
 
-.proceed > a {
+.form > a {
     display: inline-block;
     padding: 12px 24px;
     background: #00ffaa;
