@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #111;
-    color: #eee;
+    color: #eeeeee;
     line-height: 1.6;
 }
 
@@ -19,7 +19,7 @@ header > h1 {
 
 header > p {
     font-size: 1.2em;
-    color: #ccc;
+    color: #cccccc;
 }
 
 .section {
@@ -37,13 +37,13 @@ header > p {
 .feature {
     background: #1a1a1a;
     padding: 20px;
-    border: 1px solid #333;
+    border: 1px solid #333333;
     border-radius: 8px;
 }
 
 .feature > h3 {
     margin-top: 0;
-    color: #00ffaa;
+    color: #00aaff;
 }
 
 .form {
@@ -54,8 +54,8 @@ header > p {
 .form > a {
     display: inline-block;
     padding: 12px 24px;
-    background: #00ffaa;
-    color: #000;
+    background: #00aaff;
+    color: #000000;
     border-radius: 6px;
     font-weight: bold;
     text-decoration: none;
@@ -65,5 +65,5 @@ footer {
     background: #0d0d0d;
     text-align: center;
     padding: 20px;
-    color: #666;
+    color: #666666;
 }
