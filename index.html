@@ -1,48 +1,334 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bs">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Custom Programming Language Implementation</title>
-        <link rel="stylesheet" href="/style.css" />
+        <title>Akadsko carstvo - kviz</title>
+        <style>
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("/bg.png");
+    background-size: cover;
+    text-align: center;
+    font-family: "DM Sans";
+}
+
+h1 {
+    font-size: 48pt;
+    color: rgb(225, 225, 225);
+}
+
+form {
+    opacity: 0;
+    animation: 0.5s fadein 0s forwards;
+}
+
+label {
+    display: block;
+    margin: 24pt;
+    font-size: 24pt;
+    color: rgb(225, 225, 225);
+}
+
+button {
+    width: 900pt;
+    height: 60pt;
+    margin: 12pt;
+    border: none;
+    border-radius: 12pt;
+    background-color: rgb(95, 95, 95);
+    font-size: 18pt;
+    font-family: "DM Sans";
+    color: rgb(225, 225, 225);
+    animation: 0.25s idle 0s forwards;
+}
+
+button:hover {
+    animation: 0.25s hover 0s forwards;
+}
+
+#start, #restart {
+    width: 120pt;
+    height: 120pt;
+    margin: 24pt;
+    background-color: rgb(95, 95, 95);
+    font-size: 72pt;
+    color: rgb(225, 225, 225);
+}
+
+#display {
+    font-size: 72pt;
+    animation: 0.5s fadein 0s forwards;
+}
+
+.u {
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+@font-face {
+    font-family: "DM Sans";
+    src: url("/DMSans-VariableFont_opsz,wght.ttf");
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes idle {
+    from {
+        background-color: rgb(95, 95, 95);
+    }
+    to {
+        background-color: rgb(63, 63, 63);
+    }
+}
+
+@keyframes hover {
+    from {
+        background-color: rgb(63, 63, 63);
+    }
+    to {
+        background-color: rgb(95, 95, 95);
+    }
+}
+
+@keyframes correct {
+    from {
+        background-color: rgb(95, 95, 95);
+    } to {
+        background-color: rgb(0, 128, 0);
+    }
+}
+
+@keyframes wrong {
+    from {
+        background-color: rgb(95, 95, 95);
+    } to {
+        background-color: rgb(128, 0, 0);
+    }
+}
+
+        </style>
     </head>
     <body>
-        <header>
-            <h1>Custom Programming Language Implementation</h1>
-            <p>I'll bring your language idea to life (at a reasonable price).</p>
-        </header>
-        <section class="section">
-            <h2>What you get:</h2>
-            <div class="features">
-                <div class="feature">
-                    <h3>Lexer + Parser</h3>
-                    <p>
-                        Custom tokenization and parsing logic designed from scratch, no
-                        third-party tools.
-                    </p>
-                </div>
-                <div class="feature">
-                    <h3>Independent runtime</h3>
-                    <p>
-                        Run your language on a traditional interpreter or with a stack-based VM,
-                        or compile to machine code for future execution, all without any
-                        third-party dependencies.
-                    </p>
-                </div>
-                <div class="feature">
-                    <h3>Documentation</h3>
-                    <p>
-                        Clear docs for syntax and your language's standard library, along with
-                        examples, so users can dive right in.
-                    </p>
-                </div>
-            </div>
-            <div class="form">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfUoc1WLaC53W3wbo0vPgT7VAHJCNxvO_aIeNCBAc_zPsr2ig/viewform?usp=dialog">
-                    Get yours now!
-                </a>
-            </div>
-        </section>
-        <footer>&copy; 2025 Omer Drkić. All Rights Reserved.</footer>
+        <script src="/device_check.js"></script>
+        <script>
+
+if (!onDesktop) {
+    location.href = ("/unavailable");
+}
+
+        </script>
+        <h1 class="u">Akadsko carstvo</h1>
+        <button class="u" id="start">▶</button>
+        <script>
+
+const
+    elStart = document.getElementById("start"),
+    questions = [
+        [
+            "Kada je vladao Sargon od Akada?",
+            "~2334-2279 g. p.n.e.",
+            "~1539-1467 g. p.n.e.",
+            "~912-857 g. p.n.e.",
+            0
+        ],
+        [
+            "Po čemu je poznato Akadsko carstvo?",
+            "Po izumu točka",
+            "Jer je prvo carstvo u poznatoj historiji",
+            "Po izgradnji Visećih vrtova",
+            1
+        ],
+        [
+            "Gdje se nalazilo Akadsko carstvo?",
+            "U dolini rijeke Nil",
+            "U sjevernoj Mezopotamiji",
+            "Na otoku Krete",
+            1
+        ],
+        [
+            "Koju civilizaciju je Sargon pokorio da izgradi svoje carstvo?",
+            "Sumerane",
+            "Asirce",
+            "Hetite",
+            0
+        ],
+        [
+            "Koji je bio glavni grad Akadskog carstva?",
+            "Ur",
+            "Akad",
+            "Babilon",
+            1
+        ],
+        [
+            "Dokle je Sargon proširio svoju vlast?",
+            "Do doline Inda",
+            "Do Arabijskog poluotoka",
+            "Do mediteranske obale",
+            2
+        ],
+        [
+            "Koja je bila jedna od jačih strana Sargonove vojske?",
+            "Upotreba željeznog oružja",
+            "Trajna, profesionalna vojska",
+            "Slonovi",
+            1
+        ],
+        [
+            "Koji grad-državu je Sargon prvi pokorio i time započeo svoje carstvo?",
+            "Uruk",
+            "Lagaš",
+            "Kiš",
+            2
+        ],
+        [
+            "Kako je Sargon organizovao svoje carstvo?",
+            "Podijelio ga je na nezavisne gradove-države",
+            "Podijelio ga je na provincije kojima su vladali njemu odani ljudi",
+            "Na klanove sa posebnim vladama",
+            1
+        ],
+        [
+            "Ko je naslijedio Sargona nakon njegove smrti?",
+            "Naram-Sin",
+            "Rimuš",
+            "Enheduana",
+            1
+        ]
+    ];
+
+var score = 0, answer, isReady;
+
+function ask(question) {
+    return new Promise(
+        (resolve) => {
+            elForm = document.createElement("form");
+            elLabel = document.createElement("label");
+            elBr = document.createElement("br");
+            elButtonA = document.createElement("button");
+            elButtonB = document.createElement("button");
+            elButtonC = document.createElement("button");
+            elLabel.innerText = question[0];
+            elButtonA.innerText = question[1];
+            elButtonB.innerText = question[2];
+            elButtonC.innerText = question[3];
+            elLabel.className = "u";
+            elButtonA.className = "u";
+            elButtonB.className = "u";
+            elButtonC.className = "u";
+            elButtonA.type = "button";
+            elButtonB.type = "button";
+            elButtonC.type = "button";
+            elButtonA.value = "0";
+            elButtonB.value = "1";
+            elButtonC.value = "2";
+            elForm.appendChild(elLabel);
+            elForm.appendChild(elBr);
+            elForm.appendChild(elButtonA);
+            elForm.appendChild(elButtonB);
+            elForm.appendChild(elButtonC);
+            document.body.appendChild(elForm);
+            done = false;
+            firstTry = true;
+            buttons = [elButtonA, elButtonB, elButtonC];
+            buttons.forEach(
+                (button, idx) => {
+                    button.addEventListener(
+                        "click",
+                        () => {
+                            if (!done) {
+                                answer = parseInt(button.value);
+                                ev = new Event("submit", {});
+                                elForm.dispatchEvent(ev);
+                            }
+                        }
+                    );
+                }
+            );
+            elForm.addEventListener(
+                "submit",
+                (ev) => {
+                    correct = answer == question[4];
+                    if (correct) {
+                        done = true;
+                        buttons[answer].style.animation = "0.5s correct 0s forwards";
+                        if (firstTry) {
+                            ++score;
+                        }
+                        correct = true;
+                        setTimeout(
+                            () => {
+                                elForm.style.animation = "0.5s fadeout 0s forwards";
+                                setTimeout(
+                                    () => {
+                                        elForm.remove();
+                                        resolve();
+                                    },
+                                    500
+                                );
+                            },
+                            2000
+                        );
+                    } else {
+                        firstTry = false;
+                        buttons[answer].style.animation = "0.5s wrong 0s forwards";
+                    }
+                }
+            );
+        }
+    );
+};
+
+start.addEventListener(
+    "click",
+    (ev) => {
+        ev.preventDefault();
+        start.style.animation = "0.5s fadeout 0s forwards";
+        setTimeout(
+            async () => {
+                start.remove();
+                for (const question of questions) {
+                    await ask(question);
+                }
+                const elDisplay = document.createElement("label");
+                const elRestart = document.createElement("button");
+                elDisplay.innerText = `${score}/${questions.length}`
+                elRestart.innerText = "↻"
+                elDisplay.id = "display"
+                elRestart.id = "restart"
+                elDisplay.className = "u"
+                elRestart.className = "u"
+                elRestart.style.animation += ", 0.5s fadein 0s forwards"
+                elRestart.addEventListener("click", (ev) => {
+                    ev.preventDefault()
+                    location.reload()
+                })
+                document.body.appendChild(elDisplay)
+                document.body.appendChild(elRestart)
+            },
+            500
+        );
+    }
+);
+
+        </script>
     </body>
 </html>

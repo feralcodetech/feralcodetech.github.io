@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="bs">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Akadsko carstvo - kviz</title>
+        <style>
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("/bg.png");
+    background-size: cover;
+    text-align: center;
+    font-family: "DM Sans";
+}
+
+label {
+    font-size: 12pt;
+    color: rgb(225, 225, 225);
+}
+
+.u {
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+@font-face {
+    font-family: "DM Sans";
+    src: url("/DMSans-VariableFont_opsz,wght.ttf");
+}
+
+        </style>
+    </head>
+    <body>
+        <script src="/device_check.js"></script>
+        <script>
+
+if (onDesktop) {
+    location.href = ("/");
+}
+
+        </script>
+        <label class="u">Ovaj kviz trenutno nije dostupan za Vaš uređaj.</label>
+    </body>
+</html>
