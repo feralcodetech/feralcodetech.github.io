@@ -7,10 +7,6 @@
         <style>
 
 body {
-    background: url("/bg.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     text-align: center;
     font-family: "DM Sans";
 }
@@ -47,6 +43,18 @@ button {
 
 button:hover {
     animation: 0.25s hover 0s forwards;
+}
+
+#bg {
+    background: url("/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }
 
 #start, #restart {
@@ -138,6 +146,7 @@ if (!onDesktop) {
 }
 
         </script>
+        <div id="bg"></div>
         <h1 class="u">Akadsko carstvo</h1>
         <button class="u" id="start">▶</button>
         <script>

@@ -7,10 +7,6 @@
         <style>
 
 body {
-    background: url("/bg.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     text-align: center;
     font-family: "DM Sans";
 }
@@ -18,6 +14,18 @@ body {
 label {
     font-size: 12pt;
     color: rgb(225, 225, 225);
+}
+
+#bg {
+    background: url("/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }
 
 .u {
@@ -43,6 +51,7 @@ if (onDesktop) {
 }
 
         </script>
+        <div id="bg"></div>
         <label class="u">Ovaj kviz trenutno nije dostupan za Vaš uređaj.</label>
     </body>
 </html>
